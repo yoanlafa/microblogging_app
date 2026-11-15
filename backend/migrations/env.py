@@ -6,6 +6,7 @@ from app.database import Base
 from app.models.user import User
 from dotenv import load_dotenv
 import os
+from app.models.post import Post
 
 from alembic import context
 
