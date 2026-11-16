@@ -3,7 +3,6 @@ from pydantic import BaseModel, ConfigDict
 
 
 class PostCreate(BaseModel):
-    user_id: int
     description: str
 
 
@@ -14,3 +13,7 @@ class PostResponse(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class PostUpdate(BaseModel):
+    description: str
