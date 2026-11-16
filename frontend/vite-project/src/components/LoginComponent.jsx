@@ -2,12 +2,11 @@
 import {useContext, useState} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
 
-function LoginComponent() {
+function LoginComponent({onSignupClick}) {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState("");
 const {login} = useContext(AuthContext);
-
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,7 +23,7 @@ const {login} = useContext(AuthContext);
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <form
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                className="bg-white shadow-md rounded px-10 pt-6 pb-8 mb-4"
                 onSubmit={handleLogin}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -64,6 +63,12 @@ const {login} = useContext(AuthContext);
                     >
                         Login
                     </button>
+                    <label
+                        className="block text-gray-700 text-sm font-bold mb-2 px-6 py-4 hover:text-blue-700"
+                        onClick={onSignupClick}
+                    >
+                        Don't have an account ?
+                    </label>
                 </div>
             </form>
             {error && (

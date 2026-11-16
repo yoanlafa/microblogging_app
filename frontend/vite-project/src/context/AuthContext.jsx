@@ -1,5 +1,5 @@
 import {createContext, useState} from "react";
-import {logIn as loginApi} from "../api/authApi.js";
+import {logIn as loginApi, signUp} from "../api/authApi.js";
 
 export const AuthContext = createContext(null);
 
@@ -15,8 +15,15 @@ export function AuthProvider({children}){
 
 
         setUser(data.user);
-        setToken(data.access_token)
+        setToken(data.access_token);
     };
+
+    const signup = async (username, password) => {
+        const data = await signUp(username, password);
+
+        setUser(data.user);
+        setToken(data.access_token);
+    }
 
     const logout = () => {
         setUser(null);
@@ -28,7 +35,8 @@ export function AuthProvider({children}){
             user,
             token,
             login,
-            logout
+            logout,
+            signup
         }}>{children}</AuthContext.Provider>
     );
 }
