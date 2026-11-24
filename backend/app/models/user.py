@@ -31,3 +31,5 @@ class User(Base):
     )
 
     posts: Mapped[list["Post"]] = relationship(back_populates="user")
+
+    profile_picture: Mapped[str|None] = mapped_column(String, nullable=True)

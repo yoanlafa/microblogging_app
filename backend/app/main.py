@@ -3,8 +3,14 @@ from app.routers import auth, postRouter, userRouter
 from app.models.user import User
 from app.models.post import Post
 from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+UPLOAD_DIR = Path('uploads')
+
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,

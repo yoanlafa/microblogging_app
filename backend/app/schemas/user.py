@@ -30,6 +30,7 @@ class Token(BaseModel):
 class UserProfile(BaseModel):
     username: str
     created_at: datetime
+    profile_picture: str | None = None
     recent_posts: list[PostResponse]
 
 
