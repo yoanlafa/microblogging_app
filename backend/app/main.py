@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import auth, postRouter
+from app.routers import auth, postRouter, userRouter
 from app.models.user import User
 from app.models.post import Post
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,6 +17,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(postRouter.router)
+app.include_router(userRouter.router)
 
 
 @app.get("/")

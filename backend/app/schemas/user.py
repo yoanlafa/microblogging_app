@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
+from app.schemas.post import PostResponse
 
 
 class UserCreate(BaseModel):
@@ -24,5 +25,11 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     user: UserResponse
+
+
+class UserProfile(BaseModel):
+    username: str
+    created_at: datetime
+    recent_posts: list[PostResponse]
 
 

@@ -9,6 +9,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PostForm from "./components/PostForm.jsx";
 import MainLayout from './layout/MainLayout.jsx';
 import AuthLayout from './layout/AuthLayout.jsx';
+import ProfilePage from './components/ProfilePage.jsx';
 
 function App() {
     const { token } = useContext(AuthContext);
@@ -49,6 +50,7 @@ function App() {
             <Route element={<MainLayout />}>
                 <Route path="/" element={token ? <PostList posts={posts} /> : <Navigate to="/login" replace />} />
                 <Route path="/create" element={token ? <PostForm addPost={handleAddPost} /> : <Navigate to="/login" replace />} />
+                <Route path="/profile" element={token ? <ProfilePage /> : <Navigate to="/login" replace />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

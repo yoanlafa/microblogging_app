@@ -22,14 +22,21 @@ function NavBar() {
                         </li>
 
                         {token && (
-                            <li>
-                                <button
-                                    onClick={logout}
-                                    className="block py-1 px-3 text-sm text-red-600 hover:text-red-800 border border-red-300 rounded hover:bg-red-50 cursor-pointer"
-                                >
-                                    Logout
-                                </button>
-                            </li>
+                            <>
+                                <li>
+                                    <Link to="/profile" className="block py-2 px-3 text-blue-600 hover:text-blue-800 md:p-0">
+                                        Profile
+                                    </Link>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={logout}
+                                        className="block py-1 px-3 text-sm text-red-600 hover:text-red-800 border border-red-300 rounded hover:bg-red-50 cursor-pointer"
+                                    >
+                                        Logout
+                                    </button>
+                                </li>
+                            </>
                         )}
                     </ul>
 
@@ -42,4 +49,4 @@ function NavBar() {
 
 }
 
-export default NavBar
+export default NavBar
