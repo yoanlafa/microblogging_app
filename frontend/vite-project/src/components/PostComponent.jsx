@@ -3,8 +3,8 @@ function PostComponent ({ post }) {
     return (
         <div className="bg-white shadow-md rounded-xs p-4 mb-4">
             <div className="flex justify-between items-center mb-2">
-                <span className="font-bold">
-                    {post.username}
+                <span className="w-14 font-bold">
+                    {post.user_id}
                 </span>
 
                 <span className="text-sm text-gray-500">

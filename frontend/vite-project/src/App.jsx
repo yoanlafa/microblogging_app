@@ -1,51 +1,60 @@
-import {useContext, useEffect, useState} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './App.css'
-import {AuthContext} from "./context/AuthContext.jsx";
+import { AuthContext } from "./context/AuthContext.jsx";
 import LoginComponent from "./components/LoginComponent.jsx";
 import SignUpComponent from "./components/SignUpComponent.jsx";
-import {getPosts} from "./api/postApi.js";
+import { createPost, getPosts } from "./api/postApi.js";
 import PostList from "./components/PostList.jsx";
+import { Navigate, Route, Routes } from "react-router-dom";
+import PostForm from "./components/PostForm.jsx";
+import MainLayout from './layout/MainLayout.jsx';
+import AuthLayout from './layout/AuthLayout.jsx';
 
 function App() {
-  const {user, token, logout} = useContext(AuthContext);
-  const [hasAccount, setHasAccount] = useState(true);
-  const [posts, setPosts] = useState([]);
-
+    const { token } = useContext(AuthContext);
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        if(token) {
-            fetchPosts()
-                .catch(console.error);
-        }
+        if (!token) return;
+        let isMounted = true;
+        getPosts(token)
+            .then((data) => {
+                if (isMounted) {
+                    setPosts(data);
+                }
+            })
+            .catch(console.error);
+
+        return () => {
+            isMounted = false;
+        };
     }, [token]);
 
+    const handleAddPost = async (description) => {
+        try {
+            const data = await createPost(token, description);
+            setPosts((prevPosts) => [data, ...prevPosts]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-  const changeHasAccount = () => {
-      setHasAccount(!hasAccount);
-  }
+    return (
+        <Routes>
+            <Route element={<AuthLayout />}>
+                <Route path="/login" element={token ? <Navigate to="/" replace /> : <LoginComponent />} />
+                <Route path="/signup" element={token ? <Navigate to="/" replace /> : <SignUpComponent />} />
+            </Route>
 
+            <Route element={<MainLayout />}>
+                <Route path="/" element={token ? <PostList posts={posts} /> : <Navigate to="/login" replace />} />
+                <Route path="/create" element={token ? <PostForm addPost={handleAddPost} /> : <Navigate to="/login" replace />} />
+            </Route>
 
-  const fetchPosts = async () => {
-      try {
-          const data = await getPosts(token);
-          setPosts(data);
-      } catch(error) {
-          console.error(error)
-      }
-  }
-
-  return (
-      <div>
-            {user ? (
-                <>
-                    <PostList posts={posts}/>
-                </>
-            ) : (
-                hasAccount ? (<LoginComponent onSignupClick={changeHasAccount} />
-                ): (<SignUpComponent onLoginClick={changeHasAccount}/>)
-            )}
-        </div>
-  )
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+    )
 }
 
 export default App
+

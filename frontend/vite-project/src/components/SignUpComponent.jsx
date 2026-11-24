@@ -1,4 +1,5 @@
 import {useContext, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../context/AuthContext.jsx";
 
 function SignUpComponent({onLoginClick}) {
@@ -6,7 +7,7 @@ function SignUpComponent({onLoginClick}) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const {signup} = useContext(AuthContext);
-
+    const navigate = useNavigate();
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -14,10 +15,12 @@ function SignUpComponent({onLoginClick}) {
 
         try{
             await signup(username, password);
+            navigate("/");
         } catch (err){
             setError(err.message);
         }
     };
+
 
 
     return (
@@ -63,12 +66,13 @@ function SignUpComponent({onLoginClick}) {
                     >
                         SignUp
                     </button>
-                    <label
-                        className="block text-gray-700 text-sm font-bold mb-2 px-6 py-4 hover:text-blue-700"
+                    <Link
+                        to="/login"
+                        className="block text-gray-700 text-sm font-bold mb-2 px-6 py-4 hover:text-blue-700 cursor-pointer"
                         onClick={onLoginClick}
                     >
                         Already have an account ?
-                    </label>
+                    </Link>
                 </div>
             </form>
             {error && (
