@@ -151,7 +151,7 @@ function ProfilePage() {
                         You haven't posted anything yet.
                     </p>
                 ) : (
-                    <PostList posts={profile.recent_posts} />
+                    <PostList posts={profile.recent_posts} profilePicture={profilePictureUrl} />
                 )}
             </div>
 

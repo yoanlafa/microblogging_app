@@ -36,3 +36,7 @@ class Post(Base):
     @property
     def username(self) -> str | None:
         return self.user.username if self.user else None
+
+    @property
+    def profile_picture(self) -> str | None:
+        return self.user.profile_picture if self.user else None
