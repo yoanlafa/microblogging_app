@@ -9,6 +9,7 @@ class PostCreate(BaseModel):
 class PostResponse(BaseModel):
     id: int
     user_id: int
+    username: str | None = None
     description: str
     created_at: datetime
 

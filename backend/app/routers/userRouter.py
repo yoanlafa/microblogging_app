@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models.user import User
@@ -19,7 +19,7 @@ def get_user_profile(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    recent_posts = db.query(Post).filter(
+    recent_posts = db.query(Post).options(joinedload(Post.user)).filter(
         Post.user_id == current_user.id
     ).order_by(Post.created_at.desc()).limit(5).all()
 

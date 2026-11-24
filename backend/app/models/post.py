@@ -32,3 +32,7 @@ class Post(Base):
     )
 
     user: Mapped["User"] = relationship(back_populates="posts")
+
+    @property
+    def username(self) -> str | None:
+        return self.user.username if self.user else None

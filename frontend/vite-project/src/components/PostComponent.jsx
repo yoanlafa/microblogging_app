@@ -3,8 +3,8 @@ function PostComponent ({ post }) {
     return (
         <div className="bg-white shadow-md rounded-xs p-4 mb-4">
             <div className="flex justify-between items-center mb-2">
-                <span className="w-14 font-bold">
-                    {post.user_id}
+                <span className="font-bold text-gray-900">
+                    {post.username || `User #${post.user_id}`}
                 </span>
 
                 <span className="text-sm text-gray-500">

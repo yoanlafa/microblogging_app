@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models.user import User
@@ -28,6 +28,7 @@ def create_post(
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
+    new_post.user = current_user
 
     return new_post
 
@@ -37,7 +38,7 @@ def get_all_posts(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    posts = db.query(Post).order_by(Post.created_at.desc()).all()
+    posts = db.query(Post).options(joinedload(Post.user)).order_by(Post.created_at.desc()).all()
 
     return posts
 
@@ -48,7 +49,7 @@ def get_post_by_id(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    post = db.query(Post).filter(
+    post = db.query(Post).options(joinedload(Post.user)).filter(
         Post.id == post_id
     ).first()
 
@@ -91,7 +92,7 @@ def update_post(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    post = db.query(Post).filter(
+    post = db.query(Post).options(joinedload(Post.user)).filter(
         Post.id == post_id,
         Post.user_id == current_user.id
     ).first()
